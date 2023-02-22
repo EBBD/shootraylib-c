@@ -1,0 +1,1 @@
+gcc -o snake snake.c -Wall -std=c99 -D_DEFAULT_SOURCE -Wno-missing-braces -Wunused-result -s -O2 -D_DEFAULT_SOURCE -I. -I/home/room225b/raylib/src -I/home/room225b/raylib/src/external -I/usr/local/include -L. -L/home/room225b/raylib/src -L/home/room225b/raylib/src -L/usr/local/lib -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -latomic -DPLATFORM_DESKTOP
