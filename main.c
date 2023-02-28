@@ -5,6 +5,9 @@ int main(void){
   const int screenHeight = 800;
   int i = 0;
   int lockout = 0;
+  int playerShots[5];
+  int shotPos[5][2];
+  int shotHolder = 0;
 
   InitWindow(screenWidth, screenHeight, "shootGame");
   Vector2 shipPosition = { (float)screenWidth/2, (float)screenHeight/2 };
@@ -38,6 +41,12 @@ int main(void){
         if (IsKeyDown(KEY_W)) {
           shipPosition.y -= 2.0f;
         }
+	if (IsKeyDown(KEY_SPACE)) {
+	  playerShot[shotHolder] == 1;
+	  shotPos[shotHolder][0] == shipPosition.x;
+	  shotPos[shotHolder][1] == shipPosition.y - 5.0f;
+	  shotHolder++;
+	}
       }
    }
      if (i == 0){
@@ -47,6 +56,7 @@ int main(void){
             DrawText("move the ball with wasd", 10, 10, 20, WHITE);
 
             DrawCircleV(shipPosition, 25, MAROON);
+	    
 
      EndDrawing();
        i++;
