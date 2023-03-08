@@ -29,17 +29,20 @@ void fire(int ps[5], float xy[5][2], float sX, float sY){
 	}
 }
 
-void bombDash (int dashTrack, float sX, float sY){
-	if (dashTrack == 10){
-		if (IsKeyDown(KEY_A)){
-			
-		}
+void bombDash (int dashTrack, int lrud, float sX, float sY){
+	if (dashTrack == 30){
 	}
+	if (lrud == 0){
+		sY -= 10.0f;
+		return;
+	}
+	
 }
 
 int main(void){
   const int screenWidth = 450;
   const int screenHeight = 800;
+  int DashWASD = 0;
   int i = 0;
   int dashCount = 0;
 
@@ -82,35 +85,33 @@ int main(void){
         }
 	if (IsKeyPressed(KEY_SPACE) && shotHolder < 5) {
 		fire(playerShots, shotPos, shipPosition.x, shipPosition.y);
-	  //playerShots[shotHolder] = 1;
-	  //shotPos[shotHolder][0] = shipPosition.x;
-	  //shotPos[shotHolder][1] = shipPosition.y - 10.0f;
-	  //if (playerShots[0] == 0){
-	//shotHolder = 0;
-	  //}
-//else if (playerShots[1] == 0){
-//	shotHolder = 1;
-//	  }
-//else if (playerShots[2] == 0){
-//	shotHolder = 2;
-//	  }
-//else if (playerShots[3] == 0){
-//	shotHolder = 3;
-//	  }
-//else if (playerShots[4] == 0){
-//	shotHolder = 4;
-//	  }
-
 	}
+}
 
-      }
     if (IsKeyPressed(KEY_ENTER)){
+	if (lockout = 0){
+		if (IsKeyPressed(KEY_UP)){
+			DashWASD = 0;
+		} 
+		else if (IsKeyPressed(KEY_S)){
+			DashWASD = 1;
+		}
+		else if (IsKeyPressed(KEY_A)){
+			DashWASD = 2;
+		}
+		else if (IsKeyPressed(KEY_D)){
+			DashWASD = 3;
+		}
+		else{
+			DashWASD = 0;
+		}
+	}
 	lockout = 1;
 	if (dashCount == 0){
 		dashCount = 30;
 	}
 	else{
-		bombDash(dashCount, shipPosition.x, shipPosition.y);
+		bombDash(dashCount, DashWASD, shipPosition.x, shipPosition.y);
 	}
 	
 }
@@ -123,27 +124,6 @@ int main(void){
 
             DrawCircleV(shipPosition, 25, MAROON);
 
-	    /*while (j < 5) {
-		if (shotPos[j][0] == 0 && shotPos [j][1] == 0){
-			playerShots[j] = 0;
-}
-j++;
-	    }
-	    
-	    j = 0;
-            
-	    while (playerShots[j] != 0){
-		    DrawRectangle((int)shotPos[j][0], (int)shotPos[j][1], 10, 10, YELLOW);
-		    shotPos[j][1] -= 5.0f;
-		    if(shotPos[j][1] <= 3.0f){
-			    playerShots[j] = 0;
-			    shotPos[j][0] = 0;
-			    shotPos[j][1] = 0;
-			    shotHolder = j;
-			    
-		    }
-		    j++;
-	    }*/
 		drawShots(playerShots, shotPos);
                  
      EndDrawing();
