@@ -23,20 +23,34 @@ void fire(int ps[5], float xy[5][2], float sX, float sY){
 		if(ps[i] == 0){
 			ps[i] = 1;
 			xy[i][0] = sX;
-			xy[i][1] = sY - 10.0f;
+			xy[i][1] = sY - 15.0f;
 			return;
 		}
 	}
 }
 
-void bombDash (int dashTrack, int lrud, float sX, float sY){
-	if (dashTrack == 30){
+void bombDash (int dashTrack, int lrud, float* sX, float* sY, int bombOut, int bombPosX, int bombPosY, int bombTimer){
+	if (dashTrack == 15){
 	}
-	if (lrud == 0){
-		sY -= 10.0f;
-		return;
+	if (lrud == 0 && dashTrack != 0){
+		*sY -= 5.0f;
 	}
-	
+	if (bombOut == 1){
+		if (bombTimer == 36 || bombTimer == 30 || bombTimer == 24 || bombTimer == 18 || bombTimer == 12){
+			DrawCircle(bombPosX, bombPosY, 15, RED);
+		} 
+		else if (bombTimer <= 6 && bombTimer > 1){
+			DrawCircle(bombPosX, bombPosY, 50, RED);
+			DrawCircle(bombPosX, bombPosY, 40, ORANGE);
+		}
+		else if (bombTimer >= 0 && bombTimer < 2){
+			DrawCircle(bombPosX, bombPosY, 35, ORANGE);
+		}
+		else {
+			DrawCircle(bombPosX, bombPosY, 15, GREEN);
+		}
+	}
+	return;
 }
 
 int main(void){
@@ -44,6 +58,10 @@ int main(void){
   const int screenHeight = 800;
   int DashWASD = 0;
   int i = 0;
+  int bombExist = 0;
+  int bombPosY = 0;
+  int bombPosX = 0;
+  int bombTimer = 0;
   int dashCount = 0;
 
   int lockout = 0;
@@ -89,32 +107,25 @@ int main(void){
 }
 
     if (IsKeyPressed(KEY_ENTER)){
-	if (lockout = 0){
-		if (IsKeyPressed(KEY_UP)){
-			DashWASD = 0;
-		} 
-		else if (IsKeyPressed(KEY_S)){
-			DashWASD = 1;
-		}
-		else if (IsKeyPressed(KEY_A)){
-			DashWASD = 2;
-		}
-		else if (IsKeyPressed(KEY_D)){
-			DashWASD = 3;
-		}
-		else{
-			DashWASD = 0;
+	if (lockout == 0){
+		DashWASD = 0;
+		if (bombExist == 0){
+			bombExist = 1; 
+			bombPosY = shipPosition.y;
+			bombPosX = shipPosition.x;
 		}
 	}
 	lockout = 1;
 	if (dashCount == 0){
-		dashCount = 30;
+		dashCount = 15;
 	}
-	else{
-		bombDash(dashCount, DashWASD, shipPosition.x, shipPosition.y);
+	if (bombTimer == 0){
+		bombTimer = 66;
 	}
 	
 }
+   bombDash(dashCount, DashWASD, &shipPosition.x, &shipPosition.y, bombExist, bombPosX, bombPosY, bombTimer);
+	
    }
      if (i == 0){
      BeginDrawing();
@@ -133,6 +144,12 @@ int main(void){
 	}
        else {
 	lockout = 0;
+	}
+	if (bombTimer > 0){
+	bombTimer--;
+	}
+	else {
+	  bombExist = 0;
 	}
      }
      else{
