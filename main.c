@@ -1,11 +1,11 @@
 #include "raylib.h"
 
-void updateShots(int ps[5], float xy[5][2], int* rectHit){
+void updateShots(int ps[5], float xy[5][2], int* rectHit, int blueRectPos){
 	for(int i=0; i < 5; i++){
 		if(xy[i][1] < 0){
 			ps[i] = 0;
 		}
-		else if (xy[i][0] <= 300 && xy[i][0] >= 150 && xy[i][1] <= 200 && xy[i][1] >= 100){
+		else if (xy[i][0] <= 150 + blueRectPos && xy[i][0] >= blueRectPos && xy[i][1] <= 200 && xy[i][1] >= 100){
 			ps[i] = 0;
 			xy[i][0] = 0;
 			xy[i][1] = 0;
@@ -66,6 +66,8 @@ int main(void){
   const int screenHeight = 800;
   int DashWASD = 0;
   int i = 0;
+  int blueRectPos = 150;
+  int blueMove = 0;
   int gameWin = 0;
   int healthBarLength = 410;
   int rectHit = 0;
@@ -86,7 +88,7 @@ int main(void){
   SetTargetFPS(60);
   
    while (!WindowShouldClose()){
-	updateShots(playerShots, shotPos, &rectHit);
+	updateShots(playerShots, shotPos, &rectHit, blueRectPos);
      if (shipPosition.x < 25){
        shipPosition.x = 25;
      }
@@ -146,14 +148,26 @@ int main(void){
 
             DrawCircleV(shipPosition, 25, MAROON);
 	    if (gameWin == 0){
-	    	DrawRectangle(150, 100, 150, 100, BLUE);
+	    	DrawRectangle(blueRectPos, 100, 150, 100, BLUE);
+		if (blueMove == 0){
+				blueRectPos -= 2;
+			}
+			else if (blueMove == 1){
+				blueRectPos += 2;
+			}
+			if(blueRectPos < 50){
+				blueMove = 1;
+			}
+			else if (blueRectPos > 250){
+				blueMove = 0;
+			}
 	    }
 	    else {
 		DrawText("You Win!", 150, 100, 40, WHITE);
 	    }
 	    if (rectHit == 1){
 		if (gameWin == 0){
-			DrawRectangle(150, 100, 150, 100, RED);
+			DrawRectangle(blueRectPos, 100, 150, 100, RED);
 		}
 		if (healthBarLength > 0){
 			healthBarLength -= 10;
